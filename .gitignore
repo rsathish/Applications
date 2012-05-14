@@ -1,27 +1,65 @@
-*.py[co]
+import sqlite3
+sno=0
+def s():
+ global sno  
+ dbconn = sqlite3.connect('F:\python\super.db')
+ c = dbconn.cursor()
+ print "\n\t\t*****WELCOME TO LIBRARY MGMT*****"
+ print "1.Add a new book"
+ print "2.Delete a book"
+ print "3.View the books"
+ print "4.exit"
+ user=raw_input("enter ur choice?")
+ print "\n"
+ 
+ if user == "1":
+   c.execute('create table test6(sno int,bname text,bno text,author text)')
+   sno += 1
 
-# Packages
-*.egg
-*.egg-info
-dist
-build
-eggs
-parts
-bin
-var
-sdist
-develop-eggs
-.installed.cfg
+   bname = raw_input("bookname ?")
+   bno = raw_input("book no?")
+   author = raw_input("author?")
+   say =[sno,bname,bno,author]
+   print say
+   c.execute('insert into test6 values(?,?,?,?)',say)
+   dbconn.commit()
+   print "book added successfully \n"
+   s()
 
-# Installer logs
-pip-log.txt
+ if user == "2":
+  print "1.Delete all book"
+  print "2.Delete the specific book"
+  u=raw_input("1 or 2:")
+  if u == "1":
+   c.execute('delete from test6')
+   print "All books deleted sucessfully"
+   dbconn.commit()
+   s() 
+  elif u =="2":
+   print "enter the book no u want to delete"
+   b = raw_input("book number")
+   c.execute('delete from test6 where bno = (?)',b)
+   print "Book deleted sucessfully"
+   dbconn.commit()
+   s()
+ 
+ elif user == "3":
+   print"\t\t\tBOOK  DETAILS\n"
+   print "serialno\tbookname\tbookno\t\tauthor\n"
+   for s.no,bookname,bookno,author in c.execute('select * from test6'):
+     print "%s\t\t%s\t\t%s\t\t%s" % (s.no,bookname,bookno,author)
+   print "\n"
+   s()
+ 
+ else:
+  print "thank u for using \n"
+  print "R u sure u want to exit y or no" 
+  i=raw_input()
+  if i == "y":
+   return
+  else:
+   s()
+  
+s()
 
-# Unit test / coverage reports
-.coverage
-.tox
 
-#Translations
-*.mo
-
-#Mr Developer
-.mr.developer.cfg
